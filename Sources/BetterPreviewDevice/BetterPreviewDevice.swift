@@ -1,5 +1,6 @@
 import SwiftUI
 
+// MARK: - Preview Device
 @available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 extension View {
     /// Overrides the device for a preview using enumed BetterDevicePreviewNL.
@@ -27,7 +28,11 @@ extension View {
     public func preview(device: BetterPreviewDevice_Mac, colorScheme: ColorScheme = .light) -> some View {
         return preview(previewable: device, colorScheme: colorScheme)
     }
+}
     
+// MARK: - Preview Landscape
+@available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
+extension View {
     /// Overrides the size of the container for the preview using actual device's landscape screen size.
     /// NOTE: Landscape preview is not officially supported. The displayed container does not respect Safe Area or render split views correctly.
     ///

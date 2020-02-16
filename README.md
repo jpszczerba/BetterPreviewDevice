@@ -2,6 +2,40 @@
 
 A better way to enable preview of SwiftUI views using enums and predefined groups instead of manually providing string raw values.
 
+## Why?
+
+Let's assume you want to preview your fancy newly developed SwiftUI view on iPhone 11 Pro Max with Dark Mode enabled.
+Usually do this like this:
+```swift
+ExampleView()
+    .previewDevice("iPhone 11 Pro Max")
+```
+If you want to change it to an iPad, you need to find a proper raw String representing chosen device, copy it and replace previously selected device.
+With BetterPreviewDevice you can use predefined enums instead of Strings. Just like that:
+```swift
+ExampleView()
+    .preview(device: .iPhone_11_Pro_Max)
+```
+
+Moreover, what if you want to display a group of devices, e.g. on all iPhones displays sizes? Usually you do this like that:
+```swift
+static var previews: some View {
+    let devices = ["iPhone_SE", "iPhone_8", "iPhone_11_Pro", "iPhone_11", "iPhone_11_Pro_Max"]
+    return ForEach(devices, id: \.self) { device in
+        ExampleView()
+            .previewDevice(PreviewDevice(rawValue: device))
+    }
+}
+```
+
+With BetterPreviewGroup it is as simple as:
+```swift
+static var previews: some View {
+    BetterPreviewGroup(devicesGroup: .iPhones) {
+        ExampleView()
+    }
+}
+```
 
 ## Requirements
 
@@ -54,7 +88,7 @@ struct ExampleView_Previews: PreviewProvider {
                 .preview(device: .iPhone_11)
             
             ExampleView()
-                .preview(device: .iPad_Pro_9_7_inch, colorScheme: .dark)
+                .preview(device: .iPad_Pro_9_7_inch)
         }
     }
 }
@@ -76,7 +110,7 @@ struct ExampleView_Previews: PreviewProvider {
                 .previewLandscape(device: .iPhone_11)
             
             ExampleView()
-                .previewLandscape(device: .iPad_Pro_9_7_inch, colorScheme: .dark)
+                .previewLandscape(device: .iPad_Pro_9_7_inch)
         }
     }
 }
@@ -115,9 +149,25 @@ struct ExampleView_Previews: PreviewProvider {
 ```
 
 
+### Color Scheme
+
+```swift
+struct ExampleView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ExampleView()
+                .preview(device: .iPhone_11, colorScheme: .light)
+            
+            ExampleView()
+                .previewLandscape(device: .iPad_Pro_9_7_inch, colorScheme: .dark)
+        }
+    }
+}
+```
+
 ## Available devices
 
-### iPhones
+#### iPhones
 - iPhone 6s
 - iPhone 6s Plus
 - iPhone SE
@@ -133,7 +183,7 @@ struct ExampleView_Previews: PreviewProvider {
 - iPhone 11 Pro
 - iPhone 11 Pro Max
 
-### iPads
+#### iPads
 - iPad mini 4
 - iPad Air 2
 - iPad Pro (9.7-inch)
@@ -147,7 +197,7 @@ struct ExampleView_Previews: PreviewProvider {
 - iPad mini (5th generation)
 - iPad Air (3rd generation)
 
-### Apple Watches
+#### Apple Watches
 - Apple Watch Series 2 - 38mm
 - Apple Watch Series 2 - 42mm
 - Apple Watch Series 3 - 38mm
@@ -155,10 +205,17 @@ struct ExampleView_Previews: PreviewProvider {
 - Apple Watch Series 4 - 40mm
 - Apple Watch Series 4 - 44mm
 
-### Apple TVs
+#### Apple TVs
 - Apple TV
 - Apple TV 4K
 - Apple TV 4K (at 1080p)
 
-### Macs
+#### Macs
 - Mac
+
+
+## TODO
+- testing on all platforms
+- size classes
+- localizations
+- (more to come)
